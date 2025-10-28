@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulasi String JavaScript</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f7fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 400px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #1f6feb;
+      margin-bottom: 10px;
+    }
+
+    .string-box {
+      background: #eef2ff;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    select, input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #1f6feb;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+      margin: 4px;
+    }
+
+    button:hover {
+      background: #164ea6;
+    }
+
+    .reset {
+      background: #e11d48;
+    }
+
+    .reset:hover {
+      background: #b91c1c;
+    }
+
+    .output {
+      background: #f9fafb;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      text-align: left;
+      color: #1f2937;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Simulasi String JavaScript</h2>
+
+    <div class="string-box" id="codeDisplay">
+let str = "Ini adalah contoh string";<br>
+let str1 = 'String ini mengandung kutipan "ganda"';<br>
+let str2 = "String ini mengandung kutipan 'tunggal'";
+    </div>
+
+    <label for="stringSelect"><b>Pilih Variabel String:</b></label>
+    <select id="stringSelect">
+      <option value="0">str</option>
+      <option value="1">str1</option>
+      <option value="2">str2</option>
+    </select>
+
+    <input type="text" id="newString" placeholder="Ubah isi string di sini...">
+
+    <div>
+      <button onclick="tampilkanString()">Tampilkan String</button>
+      <button onclick="ubahString()">Ubah String</button>
+      <button class="reset" onclick="resetString()">Reset</button>
+    </div>
+
+    <div class="output" id="output">Output akan tampil di sini...</div>
+  </div>
+
+  <script>
+    // Nilai awal string
+    const defaultStrings = [
+      "Ini adalah contoh string",
+      "String ini mengandung kutipan \"ganda\"",
+      "String ini mengandung kutipan 'tunggal'"
+    ];
+
+    let strings = [...defaultStrings]; // salin nilai default
+
+    const output = document.getElementById("output");
+
+    // Fungsi menampilkan string
+    function tampilkanString() {
+      const index = document.getElementById("stringSelect").value;
+      output.innerHTML = `Nilai <b>string ${["str", "str1", "str2"][index]}</b> adalah:<br>"${strings[index]}"`;
+    }
+
+    // Fungsi mengubah string
+    function ubahString() {
+      const index = document.getElementById("stringSelect").value;
+      const newVal = document.getElementById("newString").value.trim();
+
+      if (newVal === "") {
+        alert("Masukkan isi string baru terlebih dahulu!");
+        return;
+      }
+
+      strings[index] = newVal;
+      tampilkanString();
+      document.getElementById("newString").value = "";
+    }
+
+    // Fungsi reset ke nilai awal
+    function resetString() {
+      strings = [...defaultStrings];
+      output.innerHTML = "Semua string telah direset ke nilai awal.";
+    }
+  </script>
+</body>
+</html>

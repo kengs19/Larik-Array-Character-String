@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulasi Array Huruf</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f7fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      width: 350px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #1f6feb;
+      margin-bottom: 15px;
+    }
+
+    .array-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+    }
+
+    .cell {
+      width: 45px;
+      height: 45px;
+      background: #e3e9f2;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: 600;
+      color: #1f2937;
+      transition: 0.3s;
+    }
+
+    .cell.active {
+      background: #1f6feb;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    select, input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #1f6feb;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+      margin: 4px;
+    }
+
+    button:hover {
+      background: #164ea6;
+    }
+
+    .reset {
+      background: #e11d48;
+    }
+
+    .reset:hover {
+      background: #b91c1c;
+    }
+
+    .output {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Simulasi Array Huruf</h2>
+
+    <div class="array-container" id="arrayBox"></div>
+
+    <label for="indexSelect"><b>Pilih indeks array:</b></label>
+    <select id="indexSelect"></select>
+
+    <label for="newValue"><b>Ubah huruf (opsional):</b></label>
+    <input type="text" id="newValue" maxlength="1" placeholder="Masukkan huruf baru">
+
+    <div>
+      <button onclick="lihatHuruf()">Tampilkan Huruf</button>
+      <button onclick="ubahHuruf()">Ubah Huruf</button>
+      <button class="reset" onclick="resetArray()">Reset</button>
+    </div>
+
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    // Array awal
+    const arrayAwal = ['a', 'b', 'z', 'd', 'e'];
+    let huruf = [...arrayAwal]; // Salin nilai awal ke variabel aktif
+
+    const arrayBox = document.getElementById("arrayBox");
+    const indexSelect = document.getElementById("indexSelect");
+    const output = document.getElementById("output");
+
+    // Render tampilan array
+    function renderArray() {
+      arrayBox.innerHTML = "";
+      indexSelect.innerHTML = "";
+
+      huruf.forEach((val, i) => {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.innerText = val;
+        cell.id = "cell-" + i;
+        arrayBox.appendChild(cell);
+
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = `Indeks ${i}`;
+        indexSelect.appendChild(option);
+      });
+    }
+
+    // Tampilkan huruf berdasarkan indeks
+    function lihatHuruf() {
+      const index = indexSelect.value;
+      document.querySelectorAll(".cell").forEach(c => c.classList.remove("active"));
+      document.getElementById("cell-" + index).classList.add("active");
+      output.innerHTML = `Huruf pada indeks <b>${index}</b> adalah <b>'${huruf[index]}'</b>`;
+    }
+
+    // Ubah huruf dalam array
+    function ubahHuruf() {
+      const index = indexSelect.value;
+      const newVal = document.getElementById("newValue").value.trim();
+
+      if (newVal === "") {
+        alert("Masukkan huruf baru terlebih dahulu!");
+        return;
+      }
+
+      huruf[index] = newVal;
+      renderArray();
+      document.getElementById("cell-" + index).classList.add("active");
+      output.innerHTML = `Huruf pada indeks <b>${index}</b> telah diubah menjadi <b>'${newVal}'</b>`;
+      document.getElementById("newValue").value = "";
+    }
+
+    // Reset array ke nilai awal
+    function resetArray() {
+      huruf = [...arrayAwal];
+      renderArray();
+      output.innerHTML = "Array telah direset ke nilai awal: <b>['a','b','z','d','e']</b>";
+    }
+
+    // Render awal saat halaman dimuat
+    renderArray();
+  </script>
+</body>
+</html>
